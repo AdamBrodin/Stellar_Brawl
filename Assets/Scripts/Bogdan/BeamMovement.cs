@@ -37,5 +37,4 @@ public class BeamMovement : MonoBehaviour //Bogdan C. SU17A\\
         }
     }
 
-    private IEnumerator blinkRed(GameObject o)
 }
