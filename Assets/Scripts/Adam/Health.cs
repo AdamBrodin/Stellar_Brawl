@@ -8,15 +8,15 @@ public class Health : MonoBehaviour // Adam Brodin SU17A \\
     #region Variables
     public GameObject explosion;
     private bool isDead = false;
-    private Rigidbody2D rb2d_2;
+    private Rigidbody2D rb2d;
     public GameObject gameoverUI;
-    private float explosionTime = 0.25f;
+    private float explosionTime = 0.25f; // How long the explosion is shown on the screen, fixed value for all sprites
     public int hp = 10;
     #endregion
 
     public void Start()
     {
-        rb2d_2 = GetComponent<Rigidbody2D>();
+        rb2d = GetComponent<Rigidbody2D>();
         if (gameObject.tag == "player")
         {
             hp = 10; // The player's start hp
@@ -67,7 +67,7 @@ public class Health : MonoBehaviour // Adam Brodin SU17A \\
                 if (gameObject.tag != "player")
                 {
                     hp -= 1;
-                    rb2d_2.AddForce(new Vector3(10, 0, 0));
+                    rb2d.AddForce(new Vector3(10, 0, 0));
                 }
                 break;
             case "shootingbullet":

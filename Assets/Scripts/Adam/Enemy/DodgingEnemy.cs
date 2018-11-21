@@ -10,8 +10,8 @@ public class DodgingEnemy : EnemyMovement // Adam Brodin SU17A \\
     public float fastRotMultiplier = 1f; // How fast the fast rotation is compared to normal (2 = 2x)
     public float rotationTime = 1f; // The total time it takes to rotate x degrees ^
     public float rotDelay = 0f;
-    float y = 100f;
-    float minY = -4.3f, maxY = 4.3f; // Set values for boundries of the world
+    private float ySpeed = 100f;
+    private float minY = -4.3f, maxY = 4.3f; // Set values for boundries of the world
     public bool fastRot = false;
 
     // MoveSpeed is inherited by Enemy class
@@ -28,9 +28,9 @@ public class DodgingEnemy : EnemyMovement // Adam Brodin SU17A \\
     {
     }
 
-    public IEnumerator RandomRotate(float time, float rotAm)
+    public IEnumerator RandomRotate(float rotTime, float rotAm)
     {
-        float t = 0f;
+        float time = 0f;
 
         if (Random.Range(0, 100) <= randomChance) // Randomly decides whether or not to rotate quickly
         {
@@ -43,16 +43,16 @@ public class DodgingEnemy : EnemyMovement // Adam Brodin SU17A \\
 
         Quaternion startRot = transform.rotation; // Sets the base rotation to a variable for later usage
 
-        while (t < time) // While x amount of time hasn't passed
+        while (time < rotTime) // While x amount of time hasn't passed
         {
-            t += Time.deltaTime;
-            if (t >= time * 0.75f && fastRot == true) // When 75% of the loop is complete, change speed and rotation amount
+            time += Time.deltaTime;
+            if (time >= rotTime * 0.75f && fastRot == true) // When 75% of the loop is complete, change speed and rotation amount
             {
                 rotAm = rotAm * fastRotMultiplier;
-                t = 0; // Start the loop over again
+                time = 0; // Start the loop over again
                 fastRot = false;
             }
-            transform.rotation = startRot * Quaternion.AngleAxis(t / time * rotAm, Vector3.forward); // Change the rotation on the > axis under a certain amount of time
+            transform.rotation = startRot * Quaternion.AngleAxis(time / time * rotAm, Vector3.forward); // Change the rotation on the > axis under a certain amount of time
         }
 
         yield return new WaitForSeconds(rotDelay);
@@ -64,14 +64,13 @@ public class DodgingEnemy : EnemyMovement // Adam Brodin SU17A \\
     {
         if (transform.position.y >= maxY) // If the enemy moves too far up on the screen (above 80% of full height)
         {
-            y = (2 * moveSpeed) * -1; // Reverses the velocity to make it go down
+            ySpeed = (2 * moveSpeed) * -1; // Reverses the velocity to make it go down
         }
         else if (transform.position.y <= minY) // If the enemy moves too far down on the screen (below 20% of full height)
         {
-            y = 2 * moveSpeed; // Adds velocity to make it go up
+            ySpeed = 2 * moveSpeed; // Adds velocity to make it go up
         }
-        rb2d.velocity = new Vector2(-moveSpeed * Time.deltaTime, y * Time.deltaTime); // Sets the velocity of the enemy to go left (-x) and up/down (y) (y speed is 2x of x speed)
-
+        rb2d.velocity = new Vector2(-moveSpeed * Time.deltaTime, ySpeed * Time.deltaTime); // Sets the velocity of the enemy to go left (-x) and up/down (y) (y speed is 2x of x speed)
         yield return null;
         StartCoroutine(RandomMovement());
     }

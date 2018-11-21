@@ -7,12 +7,12 @@ public class Enemy : Health // Adam Brodin SU17A \\
     #region Variables
     public int moveSpeed, damage, type;
     public float cooldown, blinkTime = 0.5f;
-    private SpriteRenderer spr;
+    private SpriteRenderer sprRend;
     #endregion
     public new virtual void Start()
     {
         base.Start();
-        spr = GetComponent<SpriteRenderer>();
+        sprRend = GetComponent<SpriteRenderer>();
         SetType();
     }
 
@@ -70,10 +70,10 @@ public class Enemy : Health // Adam Brodin SU17A \\
     {
         // Turns red, waits blinkTime then turns white 
 
-        spr.color = Color.red;
+        sprRend.color = Color.red;
 
         yield return new WaitForSeconds(blinkTime);
 
-        spr.color = Color.white;
+        sprRend.color = Color.white;
     }
 }
