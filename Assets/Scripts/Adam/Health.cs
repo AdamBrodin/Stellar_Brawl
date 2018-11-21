@@ -11,16 +11,12 @@ public class Health : MonoBehaviour // Adam Brodin SU17A \\
     private Rigidbody2D rb2d;
     public GameObject gameoverUI;
     private float explosionTime = 0.25f; // How long the explosion is shown on the screen, fixed value for all sprites
-    public int hp = 10;
+    public int hp;
     #endregion
 
     public void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        if (gameObject.tag == "player")
-        {
-            hp = 10; // The player's start hp
-        }
     }
 
     protected virtual void Update()
